@@ -12,7 +12,7 @@ void close_doors(struct door* doors, int count);
 void sort_doors(struct door* doors, int count);
 void print_doors(const struct door* doors, int count);
 
-int main() {
+int main(void) {
     struct door doors[DOORS_COUNT];
 
     initialize_doors(doors);
