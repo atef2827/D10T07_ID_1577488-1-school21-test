@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h> 
-#include <time.h> 
+#include <stdlib.h>
+#include <time.h>
 
 #include "door_struct.h"
 
@@ -8,28 +8,56 @@
 #define MAX_ID_SEED 10000
 
 void initialize_doors(struct door* doors);
+void close_doors(struct door* doors, int count);
+void sort_doors(struct door* doors, int count);
+void print_doors(const struct door* doors, int count);
 
-int main()
-{
+int main() {
     struct door doors[DOORS_COUNT];
-    
-    initialize_doors(doors);
-    
 
+    initialize_doors(doors);
+    close_doors(doors, DOORS_COUNT);
+    sort_doors(doors, DOORS_COUNT);
+    print_doors(doors, DOORS_COUNT);
 
     return 0;
+}
+
+// Set the status of every door to "closed".
+void close_doors(struct door* doors, int count) {
+    for (int i = 0; i < count; i++) {
+        doors[i].status = DOOR_CLOSED;
+    }
+}
+
+// Sort the doors array in ascending order by id (bubble sort).
+void sort_doors(struct door* doors, int count) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - 1 - i; j++) {
+            if (doors[j].id > doors[j + 1].id) {
+                struct door tmp = doors[j];
+                doors[j] = doors[j + 1];
+                doors[j + 1] = tmp;
+            }
+        }
+    }
+}
+
+// Print every door as "id, status".
+void print_doors(const struct door* doors, int count) {
+    for (int i = 0; i < count; i++) {
+        printf("%d, %d\n", doors[i].id, doors[i].status);
+    }
 }
 
 // Doors initialization function
 // ATTENTION!!!
 // DO NOT CHANGE!
-void initialize_doors(struct door* doors)
-{
-    srand(time(0)); 
-    
+void initialize_doors(struct door* doors) {
+    srand(time(0));
+
     int seed = rand() % MAX_ID_SEED;
-    for (int i = 0; i < DOORS_COUNT; i++)
-    {
+    for (int i = 0; i < DOORS_COUNT; i++) {
         doors[i].id = (i + seed) % DOORS_COUNT;
         doors[i].status = rand() % 2;
     }
